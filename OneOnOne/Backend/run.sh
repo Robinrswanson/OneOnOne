@@ -1,1 +1,0 @@
-./OneOnOne/manage.py runserver
