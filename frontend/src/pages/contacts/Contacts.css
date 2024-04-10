@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
+:root{
+    --main: #1a1f29;
+    --secondary: #fff;
+    --tertiary:#0f1218;
+    --quatenary:#242b39;
+    --action: #D3AC2B;
+
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--main);
+    min-height: 100dvh;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    justify-content: center;
+    align-items: center;
+    width:100vh;
+}
+
+main {
+    flex: 1;
+}
+
+.navbar {
+    background-color: var(--tertiary);
+}
+
+.navbar-brand {
+    color: var(--action);
+}
+
+.nav-link{
+    color: var(--secondary);
+    opacity: 0.5;
+}
+
+.nav-link:hover {
+    color: var(--secondary);
+    opacity: 1;
+}
+
+.nav-link.current{
+    color: var(--secondary);
+    opacity: 1;
+}
+
+h1, h2, h3, p {
+    color: var(--secondary);
+    font-family: 'Lato', sans-serif;
+}
+
+h1 {
+    font-size: 2.986rem;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 2.488rem;
+}
+
+
+.btn.btn-primary{
+    border: 0;
+    background-color: var(--action);
+}
+
+.btn.btn-secondary{
+    border-color: var(--action);
+    color: var(--action);
+    background-color: transparent;
+}
+
+
+.table thead th {
+    background-color: var(--main) !important;
+    color: var(--secondary) !important;
+}
+
+.table tbody tr,
+.table tbody tr th,
+.table tbody tr td {
+    background-color: var(--main) !important; 
+    color: var(--secondary) !important;
+}
+
+footer {
+    background-color: var(--tertiary);
+}
+
+.navbar-brand:hover {
+    color: var(--action);
+}
+
+

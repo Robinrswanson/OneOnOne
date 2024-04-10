@@ -1,0 +1,284 @@
+Calendars:
+
+Models:
+
+Calendar
+Fields:
+    name (CharField): Name of the calendar.
+    comment (TextField): Additional comments or description.
+    date_time_created (DateTimeField): Timestamp when the calendar is created.
+    date_time_modified (DateTimeField): Timestamp when the calendar is last modified.
+    date_time_finalization (DateTimeField): Timestamp for when the calendar should be finalized by.
+    owner (ForeignKey): Reference to the User model, indicating the owner of the calendar.
+
+TimeSlot
+Fields:
+    preference (IntegerField): Indicates preference level (Low, Medium, High).
+    start_date_time (DateTimeField): Start date and time of the time slot.
+    duration (IntegerField): Duration of the time slot in minutes.
+    comment (TextField): Additional comments or description.
+    last_modified (DateTimeField): Timestamp when the time slot is last modified.
+    calendar (ForeignKey): Reference to the Calendar model.
+
+CalendarContact
+Fields:
+    calendar (ForeignKey): Reference to the Calendar model.
+    contact (ForeignKey): Reference to the User model, indicating the contact added to the calendar.
+    has_submitted (BooleanField): Indicates whether the contact has submitted their preferences.
+
+TimeSlotVote
+Fields:
+    calendar (ForeignKey): Reference to the Calendar model.
+    contact (ForeignKey): Reference to the User model, indicating the user voting.
+    timeslot (ForeignKey): Reference to the TimeSlot model.
+    preference (IntegerField): Voting preference (Not Available, Low, Medium, High).
+
+
+API Endpoints:
+
+Calendar List (Primary)
+    Endpoint: calendars/primary/
+    Method: GET, POST
+    Description: List all calendars owned by the user or create a new calendar.
+    Payload for POST:
+
+        "name": "string",
+        "comment": "string", // Optional
+        "date_time_finalization": "datetime"
+
+Calendar List (Secondary)
+    Endpoint: calendars/secondary/
+    Method: GET
+    Description: List all calendars where the user is a contact.
+
+Calendar Detail
+    Endpoint: calendars/<int:calendar_id>/
+    Method: GET, PUT, DELETE
+    Description: Retrieve, update, or delete a specific calendar.
+    Payload for PUT:
+
+        // Can change any of the following
+        "name": "string",
+        "comment": "string", 
+        "date_time_finalization": "datetime"
+
+TimeSlot List
+    Endpoint: calendars/<int:calendar_id>/timeslots/
+    Method: GET, POST
+    Description: List all time slots for a specific calendar or create a new time slot.
+    Payload for POST:
+
+        "preference": "integer",
+        "start_date_time": "datetime",
+        "duration": "integer", // Default is 30 if not provided
+        "comment": "string" // Optional
+
+TimeSlot Detail
+    Endpoint: calendars/timeslots/<int:timeslot_id>/
+    Method: GET, PUT, DELETE
+    Description: Retrieve, update or delete a time slot instance.
+    Payload for PUT:
+
+        //Can change any of the following
+        "preference": "integer",
+        "start_date_time": "datetime",
+        "duration": "integer", 
+        "comment": "string" 
+
+Calendar Contact List
+    Endpoint: calendars/<int:calendar_id>/contacts/
+    Method: GET
+    Description: List all contacts associated with a specific calendar.
+
+Calendar Contact Detail
+    Endpoint: calendars/<int:calendar_id>/contacts/detail/
+    Method: GET, POST
+    Description: Retrieves a list of contacts not in the calendar and adds a contact to the calendar.
+    Payload for POST:
+
+        "contact_username": "string"
+
+Calendar Contact Delete
+    Endpoint: calendars/<int:calendar_id>/contacts/<int:contact_id>/
+    Method: DELETE
+    Description: Remove a contact from a calendar.
+
+TimeSlot Vote
+    Endpoint: calendars/<int:calendar_id>/vote/
+    Method: POST
+    Description: Submit a vote for a time slot in a specific calendar.
+    Payload:
+
+        "timeslot": "integer",
+        "preference": "integer"
+
+Calendar TimeSlot Votes
+
+    Endpoint: calendars/<int:calendar_id>/timeslot-votes/
+    Method: GET
+    Description: Retrieve the votes for each timeslot in a specific calendar. This view provides a breakdown of all votes submitted by contacts for the timeslots in the given calendar, including the contact's username and their voting preference for each timeslot.
+
+
+######################################################################################################################################################
+
+Account:
+
+Models:
+
+UserData
+
+Fields:
+
+    username (CharField): Unique identifier for the user. Max length of 120 characters.
+    email (EmailField): User's email address. It's unique across the system.
+    first_name (CharField): User's first name. Max length of 120 characters.
+    last_name (CharField): User's last name. Max length of 120 characters.
+    date_joined (DateTimeField): Timestamp indicating when the user account was created.
+    last_login (DateTimeField): Timestamp of the user's last login.
+    is_admin (BooleanField): Indicates if the user has admin privileges.
+    is_active (BooleanField): Indicates if the user's account is active.
+    is_staff (BooleanField): Designates whether the user can access the admin site.
+    is_superuser (BooleanField): Indicates if the user has all permissions without explicitly assigning them.
+
+Description: UserData extends Django's AbstractUser model, providing a custom user model for the application. This model is used to manage user information and authentication. It allows storing personal information like name and email, alongside details about account status and permissions.
+
+UserManager
+
+UserManager is a custom manager for the UserData model, providing helper methods for creating user and superuser accounts.
+
+Methods:
+
+create_user: Creates a new user with the given username, email, and password. It ensures that essential fields like username, email, first name, and last name are provided. Upon creating a user, a new ContactList instance is also created for the user.
+create_superuser: Creates a new superuser with administrative privileges. Ensures that the created user has is_staff and is_superuser set to True.
+Description: This manager is essential for handling the creation of user accounts, ensuring all required fields are provided and properly set up.
+
+API Endpoints:
+
+RegisterView
+    Endpoint: account/register/
+    Method: POST
+    Description: Registers a new user.
+    Payload:
+
+        //All fields are required.
+        "username": "string",
+        "email": "string",
+        "first_name": "string",
+        "last_name": "string",
+        "password": "string"
+
+TokenObtainPairView (JWT Token Obtain)
+    Endpoint: account/login/
+    Method: POST
+    Description: Obtain a JWT token for authentication.
+    Payload:
+
+        //Both fields are required.
+        "username": "string",
+        "password": "string"
+
+TokenRefreshView (JWT Token Refresh)
+    Endpoint: account/login/refresh/
+    Method: POST
+    Description: Refresh an existing JWT token.
+    Payload:
+
+        "refresh": "string"
+
+
+######################################################################################################################################################
+
+Contacts:
+
+Models
+ContactList
+Fields:
+
+user (OneToOneField): Links to the AUTH_USER_MODEL, representing the owner of the contact list. It's a one-to-one relationship, ensuring each user has only one contact list.
+contacts (ManyToManyField): Represents the contacts within the user's contact list. It's a many-to-many field linking to AUTH_USER_MODEL, allowing for a collection of users to be associated as contacts.
+Description: The ContactList model manages a user's contacts. It associates a user with their contacts, enabling functionalities like adding and removing contacts. The model ensures each user has a unique contact list and provides methods to manipulate this list, enhancing the application's social connectivity features.
+
+Methods:
+
+add_contact: Adds a new contact to the user's contact list, ensuring no duplicates.
+remove_contact: Removes a specified contact from the user's contact list.
+unadd: Initiates the removal of a contact, affecting both the remover's and removee's contact lists.
+ContactRequest
+Fields:
+
+sender (ForeignKey): Links to AUTH_USER_MODEL, identifying the user sending the contact request.
+receiver (ForeignKey): Links to AUTH_USER_MODEL, identifying the user receiving the contact request.
+is_active (BooleanField): Indicates whether the contact request is active. Default is True.
+timestamp (DateTimeField): Records the time when the contact request was made.
+Description: The ContactRequest model facilitates sending, receiving, and managing contact requests between users. It tracks the sender and receiver of requests, the request's status (active or not), and the time of request creation. This model plays a critical role in managing social interactions within the application, allowing users to expand their network.
+
+Methods:
+
+accept: Accepts a contact request, updating both the sender's and receiver's contact lists and deactivating the request.
+decline: Declines a contact request by deactivating it, without adding contacts to any list.
+cancel: Cancels an active contact request by the sender, deactivating the request. This method is similar to decline but is initiated by the sender.
+
+API Endpoints
+Contact List Operations
+Endpoint: /contact-lists/
+
+Method: GET
+
+Description: Retrieves the authenticated user's contact list. This includes all contacts associated with the user.
+
+Authentication Required: Yes
+
+Response: A list of contacts in the user's contact list.
+
+Endpoint: /contact-lists/
+
+Method: PUT
+
+Description: Removes a specified contact from the authenticated user's contact list by using the contact's email provided in the request body.
+
+Authentication Required: Yes
+
+Response: A success message indicating the contact was successfully removed or an error message if the operation fails.
+
+Contact Request Operations
+Endpoint: /contact-requests/
+
+Method: GET
+
+Description: Retrieves all active contact requests for the authenticated user where the user is the receiver.
+
+Authentication Required: Yes
+
+Response: A list of active contact requests received by the user.
+
+Endpoint: /contact-requests/
+
+Method: POST
+
+Description: Creates a new contact request from the authenticated user (sender) to another user (receiver) specified by the receiver's username in the request body.
+
+Authentication Required: Yes
+
+Response: Details of the created contact request or an error message if the request cannot be made.
+
+Endpoint: /contact-requests/
+
+Method: PUT
+
+Description: Accepts or declines an existing contact request identified by its ID provided in the request body. The action (accept or decline) must also be specified in the request body.
+
+Authentication Required: Yes
+
+Response: A success status code for a successful operation or an error message if the request fails.
+
+Endpoint: /contact-requests/<int:pk>/
+
+Method: DELETE
+
+Description: Deletes an existing contact request by its primary key (pk). This can be used to cancel a sent request or remove a received request.
+
+Authentication Required: Yes
+
+URL Parameter: pk - The primary key of the contact request to delete.
+
+Response: A success status code if the request is successfully deleted or an error message if the operation fails.

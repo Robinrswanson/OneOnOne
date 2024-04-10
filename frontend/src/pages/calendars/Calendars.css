@@ -1,0 +1,190 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+ 
+:root{
+    --main: #1a1f29;
+    --secondary: #fff;
+    --tertiary:#0f1218;
+    --action: #D3AC2B;
+ 
+}
+ 
+.feature-border {
+    border: 1px solid #b4b7ba;
+    padding: 15px;
+    border-radius: 8px; 
+    margin-bottom: 15px;
+}
+ 
+body {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--main);
+    min-height: 100vh;
+}
+ 
+header {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    justify-content: center;
+    align-items: center;
+    width:100vh;
+}
+ 
+
+.navbar {
+    background-color: var(--tertiary);
+}
+ 
+.navbar-brand {
+    color: var(--action);
+}
+ 
+.nav-link{
+    color: var(--secondary);
+    opacity: 0.5;
+}
+ 
+.nav-link:hover {
+    color: var(--secondary);
+    opacity: 1;
+}
+ 
+.nav-link.current{
+    color: var(--secondary);
+    opacity: 1;
+}
+ 
+h1, h2, h3, p {
+    color: var(--secondary);
+    font-family: 'Lato', sans-serif;
+}
+ 
+h1 {
+    font-size: 2.986rem;
+    font-weight: 700;
+}
+ 
+h2 {
+    font-size: 2.488rem;
+}
+ 
+ 
+.btn.btn-primary{
+    border: 0;
+    background-color: var(--action);
+}
+ 
+.btn.btn-secondary{
+    border-color: var(--action);
+    color: var(--action);
+    background-color: transparent;
+}
+ 
+.list-group-item{
+    background-color: var(--tertiary) !important;
+    color: var(--secondary) !important;
+}
+ 
+.list-group-item-action{
+    background-color: var(--main);
+}
+ 
+.badge {
+    background-color: var(--action);
+}
+ 
+/* footer {
+    position: absolute; 
+    bottom: 0; 
+    width: 100%; 
+    background-color: var(--tertiary);
+} */
+ 
+ 
+.list-group-item a {
+    color: white;        
+    text-decoration: none; 
+}
+ 
+.list-group-item a:hover {
+    color: rgb(173, 173, 173);        
+    text-decoration: none; 
+}
+ 
+ 
+/* Make the navbar stand out */
+.navbar {
+    background-color: var(--tertiary); /* Adjusted color to make it stand out */
+    border-bottom: 2px solid var(--action); /* Optional: adds a border to distinguish navbar */
+}
+ 
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+.calendar-form input,
+.calendar-form button {
+width: 100%; 
+padding: 8px;
+margin-bottom: 10px; 
+}
+
+.calendar-form button {
+background-color: var(--action);
+color: var(--secondary);
+border: none;
+cursor: pointer;
+}
+
+.add-calendar-form {
+width: 100%; 
+display: flex;
+justify-content: center; 
+}
+
+.calendar-form {
+width: 32%; 
+margin: auto; 
+display: flex;
+flex-direction: column;
+align-items: center; 
+gap: 10px;
+}
+
+body {
+    display: flex;
+    flex-direction: column; /* maintains the document flow */
+    min-height: 100vh; /* full viewport height */
+    margin: 0; /* reset any default margin */
+    position: relative;
+    padding-bottom:3rem;
+    box-sizing: inherit;
+}
+
+main {
+    flex: 1; /* consumes all available space */
+}
+
+html {
+    height: 100%;
+    box-sizing: border-box;
+}
+
+footer {
+    background-color: var(--tertiary);
+    height: 3rem; /* your desired height */
+    /* No need for 'position: absolute;' */
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+
+.gold {
+    color: #A98A22;
+}
+
+.green {
+    color: skyblue !important;
+}

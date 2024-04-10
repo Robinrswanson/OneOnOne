@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
+:root{
+    --main: #1a1f29;
+    --secondary: #fff;
+    --tertiary:#0f1218;
+    --quatenary:#242b39;
+    --action: #D3AC2B;
+
+}
+
+.feature-border {
+    border: 1px solid #b4b7ba;
+    padding: 15px;
+    border-radius: 8px; 
+    margin-bottom: 15px;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--main);
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    justify-content: center;
+    align-items: center;
+}
+
+main {
+    flex: 1;
+}
+
+.navbar {
+    background-color: var(--tertiary);
+}
+
+.navbar-brand {
+    color: var(--action);
+}
+
+.nav-link{
+    color: var(--secondary);
+    opacity: 0.5;
+}
+
+.nav-link:hover {
+    color: var(--secondary);
+    opacity: 1;
+}
+
+.nav-link.current{
+    color: var(--secondary);
+    opacity: 1;
+}
+
+h1, h2, h3, p {
+    color: var(--secondary);
+    font-family: 'Lato', sans-serif;
+}
+
+h1 {
+    font-size: 2.986rem;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 2.488rem;
+}
+
+.hero-section {
+    padding: 8rem 0;
+    background-image: linear-gradient(180deg, rgba(26, 31, 41, 0.9), rgba(26, 31, 41, 0.9)), url(hero-background.avif);
+    background-position: center center;
+    background-size: auto, cover;
+    width: 100%;
+}
+
+.hero-text {
+    max-width: 1080px;
+}
+
+.hero-text h1 {
+    padding: 2rem 0;
+}
+
+.hero-section span{
+    color: var(--action);
+}
+
+.btn.btn-primary{
+    margin: 0 0.5rem;
+    border: 0;
+    background-color: var(--action);
+}
+
+.btn.btn-secondary{
+    border-color: var(--action);
+    color: var(--action);
+    background-color: transparent;
+}
+
+.features {
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbar-brand:hover {
+    color: var(--action);
+}
+
+footer {
+    background-color: var(--tertiary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 3rem;
+}
