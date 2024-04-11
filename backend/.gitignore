@@ -34,3 +34,4 @@ Load
 *.pyc
 __pycache__/
 venv/
+.env
