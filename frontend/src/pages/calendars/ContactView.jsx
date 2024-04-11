@@ -6,7 +6,7 @@ import './ContactView.css';
 import { useAuth } from "../../hooks/AuthProvider";
 
 const ContactView = ({ calendar, token, isOwner }) => {
-    const backendUrl = 'http://3.95.237.137'; 
+    const backendUrl = 'https://ec2-3-95-237-137.compute-1.amazonaws.com'; 
     const [contacts, setContacts] = useState([]);
     const [timeslots, setTimeslots] = useState([]);
     const auth = useAuth();

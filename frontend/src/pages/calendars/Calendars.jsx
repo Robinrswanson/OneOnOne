@@ -11,7 +11,7 @@ const CalendarPage = () => {
   const [secondaryCalendars, setSecondaryCalendars] = useState([]);
   const [isNavCollapsed, setIsNavCollapsed] = useState(true); // State to handle navbar collapse
 
-  const backendUrl = 'http://3.95.237.137';
+  const backendUrl = 'https://ec2-3-95-237-137.compute-1.amazonaws.com';
   const [newCalendarName, setNewCalendarName] = useState('');
   const [newCalendarComment, setNewCalendarComment] = useState('');
 

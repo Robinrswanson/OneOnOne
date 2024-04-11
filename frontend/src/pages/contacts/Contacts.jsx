@@ -21,7 +21,7 @@ const ContactsPage = () => {
     useEffect(() => {
         const fetchContacts = async () => {
             try {
-                const response = await axios.get('http://3.95.237.137/contacts/contact-lists/', {
+                const response = await axios.get('https://ec2-3-95-237-137.compute-1.amazonaws.com/contacts/contact-lists/', {
                     headers: {
                         Authorization: `Bearer ${auth.token}`,
                     },
@@ -38,7 +38,7 @@ const ContactsPage = () => {
 
         const fetchRequests = async () => {
             try {
-                const response = await axios.get('http://3.95.237.137/contacts/contact-requests/', {
+                const response = await axios.get('https://ec2-3-95-237-137.compute-1.amazonaws.com/contacts/contact-requests/', {
                     headers: {
                         Authorization: `Bearer ${auth.token}`,
                     },
@@ -56,7 +56,7 @@ const ContactsPage = () => {
     }, [auth.token]);
 
     const handleSubmit = async (e) => {
-        const endpoint = 'http://3.95.237.137/contacts/contact-requests/';
+        const endpoint = 'https://ec2-3-95-237-137.compute-1.amazonaws.com/contacts/contact-requests/';
         const data = { 'receiver': username };
         try {
             const response = await axios.post(endpoint, data, {
@@ -96,7 +96,7 @@ const ContactsPage = () => {
             try {
                 // Assuming you need to send the contact's email as data for some reason
                 const data = { email: contactToDelete.email };
-                await axios.put(`http://3.95.237.137/contacts/contact-lists/`, data, {
+                await axios.put(`https://ec2-3-95-237-137.compute-1.amazonaws.com/contacts/contact-lists/`, data, {
                     headers: {
                         Authorization: `Bearer ${auth.token}`,
                     },
@@ -114,7 +114,7 @@ const ContactsPage = () => {
     const acceptRequest = async (requestId) => {
         try {
             const response = await axios.put(
-                `http://3.95.237.137/contacts/contact-requests/`,
+                `https://ec2-3-95-237-137.compute-1.amazonaws.com/contacts/contact-requests/`,
                 { id: requestId, action: 'accept' },
                 { headers: { Authorization: `Bearer ${auth.token}` } }
             );
@@ -137,7 +137,7 @@ const ContactsPage = () => {
     const rejectRequest = async (requestId) => {
         try {
             const response = await axios.put(
-                `http://3.95.237.137/contacts/contact-requests/`,
+                `https://ec2-3-95-237-137.compute-1.amazonaws.com/contacts/contact-requests/`,
                 { id: requestId, action: 'decline' },
                 { headers: { Authorization: `Bearer ${auth.token}` } }
             );

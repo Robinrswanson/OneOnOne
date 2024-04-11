@@ -8,7 +8,7 @@ import { useAuth } from "../../hooks/AuthProvider";
 
 const FinalView = ({ calendar, token, isOwner }) => {
     const navigate = useNavigate();
-    const backendUrl = 'http://3.95.237.137';
+    const backendUrl = 'https://ec2-3-95-237-137.compute-1.amazonaws.com';
     const [contacts, setContacts] = useState([]);
     const [finalizedTimeslot, setFinalizedTimeslot] = useState(null);
     const [isNavCollapsed, setIsNavCollapsed] = useState(true); // State to handle navbar collapse

@@ -20,7 +20,7 @@ const AuthProvider = ({ children }) => {
   // Handles user login
   const loginAction = async (data) => {
     try {
-      const response = await axios.post("http://3.95.237.137/accounts/login/", data);
+      const response = await axios.post("https://ec2-3-95-237-137.compute-1.amazonaws.com/accounts/login/", data);
       const { user, access: token } = response.data;
 
       console.log(user);
@@ -48,7 +48,7 @@ const AuthProvider = ({ children }) => {
   // Function to handle user registration
   const registerAction = async (data) => {
     try {
-      await axios.post("http://3.95.237.137/accounts/register/", data);
+      await axios.post("https://ec2-3-95-237-137.compute-1.amazonaws.com/accounts/register/", data);
       // If registration is successful, automatically log the user in
       await loginAction({ username: data.username, password: data.password });
     } catch (err) {
