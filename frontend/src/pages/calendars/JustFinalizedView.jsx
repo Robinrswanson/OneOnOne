@@ -10,7 +10,7 @@ const JustFinalizedView = ({calendar, token, isOwner, contacts, user}) => {
     const [isNavCollapsed, setIsNavCollapsed] = useState(true); // State to handle navbar collapse
     const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
     const auth = useAuth();
-    const backendUrl = 'http://localhost:8000';
+    const backendUrl = 'http://3.95.237.137';
 
 
 

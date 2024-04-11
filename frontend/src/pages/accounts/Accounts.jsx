@@ -15,7 +15,7 @@ const AccountPage = () => {
     const fetchProfileData = async () => {
       try {
         const token = auth.token;
-        const response = await axios.get('http://127.0.0.1:8000/accounts/', {
+        const response = await axios.get('http://3.95.237.137/accounts/', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -75,7 +75,7 @@ const AccountPage = () => {
     if (validateForm()) {
       try {
         const token = auth.token;
-        const response = await axios.put('http://127.0.0.1:8000/accounts/', formData, {
+        const response = await axios.put('http://3.95.237.137/accounts/', formData, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

@@ -6,7 +6,7 @@ import './ContactView.css';
 import { useAuth } from "../../hooks/AuthProvider";
 
 const ContactView = ({ calendar, token, isOwner }) => {
-    const backendUrl = 'http://localhost:8000'; 
+    const backendUrl = 'http://3.95.237.137'; 
     const [contacts, setContacts] = useState([]);
     const [timeslots, setTimeslots] = useState([]);
     const auth = useAuth();

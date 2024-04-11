@@ -23,7 +23,7 @@ const Dashboard = () => {
 
     const fetchNotifications = useCallback(async () => {
       try {
-          const response = await axios.get('http://localhost:8000/calendars/notifications/', {
+          const response = await axios.get('http://3.95.237.137/calendars/notifications/', {
           headers: { Authorization: `Bearer ${token}` }
           });
           setNotifications(response.data);
@@ -35,7 +35,7 @@ const Dashboard = () => {
 
   const fetchRequests = useCallback(async () => {
     try {
-        const response = await axios.get('http://127.0.0.1:8000/contacts/contact-requests/', {
+        const response = await axios.get('http://3.95.237.137/contacts/contact-requests/', {
             headers: {
                 Authorization: `Bearer ${token}`,
             },

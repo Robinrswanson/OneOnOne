@@ -9,7 +9,7 @@ import FinalView from './FinalView';
 const CalendarDetailPage = () => {
     const { token, user } = useAuth();
     const { calendarId } = useParams();
-    const backendUrl = 'http://localhost:8000';
+    const backendUrl = 'http://3.95.237.137';
 
     const [calendar, setCalendar] = useState(null);
     const [isOwner, setIsOwner] = useState(false);
