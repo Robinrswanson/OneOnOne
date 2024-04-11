@@ -15,7 +15,7 @@ const AccountPage = () => {
     const fetchProfileData = async () => {
       try {
         const token = auth.token;
-        const response = await axios.get('http://ec2-3-95-237-137.compute-1.amazonaws.com/accounts/', {
+        const response = await axios.get('https://api.oneonone.software/accounts/', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -75,7 +75,7 @@ const AccountPage = () => {
     if (validateForm()) {
       try {
         const token = auth.token;
-        const response = await axios.put('http://ec2-3-95-237-137.compute-1.amazonaws.com/accounts/', formData, {
+        const response = await axios.put('https://api.oneonone.software/accounts/', formData, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

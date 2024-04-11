@@ -8,7 +8,7 @@ import { useAuth } from "../../hooks/AuthProvider";
 
 const FinalView = ({ calendar, token, isOwner }) => {
     const navigate = useNavigate();
-    const backendUrl = 'http://ec2-3-95-237-137.compute-1.amazonaws.com';
+    const backendUrl = 'https://api.oneonone.software';
     const [contacts, setContacts] = useState([]);
     const [finalizedTimeslot, setFinalizedTimeslot] = useState(null);
     const [isNavCollapsed, setIsNavCollapsed] = useState(true); // State to handle navbar collapse
@@ -76,13 +76,13 @@ const FinalView = ({ calendar, token, isOwner }) => {
 const createGoogleCalendarLink = (timeslot) => {
         const start = new Date(timeslot.start_date_time).toISOString();
         const end = new Date(new Date(timeslot.start_date_time).getTime() + timeslot.duration * 60000).toISOString();
-        return `http://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(calendar.name)}&dates=${start.replace(/-|:|\.\d{3}/g, '')}/${end.replace(/-|:|\.\d{3}/g, '')}&details=${encodeURIComponent(calendar.comment || '')}&ctz=${userTimeZone}`;
+        return `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(calendar.name)}&dates=${start.replace(/-|:|\.\d{3}/g, '')}/${end.replace(/-|:|\.\d{3}/g, '')}&details=${encodeURIComponent(calendar.comment || '')}&ctz=${userTimeZone}`;
     };
 
     const createOutlookCalendarLink = (timeslot) => {
         const start = new Date(timeslot.start_date_time).toISOString();
         const end = new Date(new Date(timeslot.start_date_time).getTime() + timeslot.duration * 60000).toISOString();
-        return `http://outlook.office.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&startdt=${encodeURIComponent(start)}&enddt=${encodeURIComponent(end)}&subject=${encodeURIComponent(calendar.name)}&body=${encodeURIComponent(calendar.comment || '')}`;
+        return `https://outlook.office.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&startdt=${encodeURIComponent(start)}&enddt=${encodeURIComponent(end)}&subject=${encodeURIComponent(calendar.name)}&body=${encodeURIComponent(calendar.comment || '')}`;
     };
 
     const onAddToGoogleCalendar = () => {
@@ -103,7 +103,7 @@ const createGoogleCalendarLink = (timeslot) => {
         <>
         <nav className="navbar navbar-expand-lg">
         <div className="container">
-            <Link className="navbar-brand" to="/">1on1</Link>
+            <span className="navbar-brand" to="/dashboard/">1on1</span>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" 
                     data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded={!isNavCollapsed} 
                     aria-label="Toggle navigation" onClick={handleNavCollapse}>

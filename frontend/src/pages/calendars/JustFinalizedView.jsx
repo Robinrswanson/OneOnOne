@@ -10,7 +10,7 @@ const JustFinalizedView = ({calendar, token, isOwner, contacts, user}) => {
     const [isNavCollapsed, setIsNavCollapsed] = useState(true); // State to handle navbar collapse
     const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
     const auth = useAuth();
-    const backendUrl = 'http://ec2-3-95-237-137.compute-1.amazonaws.com';
+    const backendUrl = 'https://api.oneonone.software';
 
 
 
@@ -23,7 +23,7 @@ const JustFinalizedView = ({calendar, token, isOwner, contacts, user}) => {
 			}
 		}
 		// `http://localhost:3000/calendars/${calendar.id}`
-		const link = `http://localhost:3000/calendars/${calendar.id}`;
+		const link = `${backendUrl}/calendars/${calendar.id}`;
 		const subject = encodeURIComponent(`Notification: Calendar ${calendar.name} has been finalized.`);
 		const body = encodeURIComponent(`Click this link, for sure absolutely safe, will take you to the calendar for quick access:\n\n${link}\n\nBest,\n${auth.user.username}`);
 		
@@ -55,7 +55,7 @@ const JustFinalizedView = ({calendar, token, isOwner, contacts, user}) => {
         <>
         <nav className="navbar navbar-expand-lg">
         <div className="container">
-            <Link className="navbar-brand" to="/">1on1</Link>
+            <span className="navbar-brand" to="/dashboard/">1on1</span>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" 
                     data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded={!isNavCollapsed} 
                     aria-label="Toggle navigation" onClick={handleNavCollapse}>

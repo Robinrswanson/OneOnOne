@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Dashboard.css';
 import { useAuth } from "../../hooks/AuthProvider";
@@ -21,39 +21,38 @@ const Dashboard = () => {
 
     const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
 
-    const fetchNotifications = useCallback(async () => {
-      try {
-          const response = await axios.get('http://ec2-3-95-237-137.compute-1.amazonaws.com/calendars/notifications/', {
-          headers: { Authorization: `Bearer ${token}` }
-          });
-          setNotifications(response.data);
+    const fetchNotifications = async () => {
+        try {
+            const response = await axios.get('https://api.oneonone.software/calendars/notifications/', {
+            headers: { Authorization: `Bearer ${token}` }
+            });
+            setNotifications(response.data);
+        } catch (error) {
+            console.error('Error fetching notifications:', error);
+        }
+    };
 
-      } catch (error) {
-          console.error('Error fetching notifications:', error);
-      }
-  }, [token]);
-
-  const fetchRequests = useCallback(async () => {
-    try {
-        const response = await axios.get('http://ec2-3-95-237-137.compute-1.amazonaws.com/contacts/contact-requests/', {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        setRequests(response.data);
-    } catch (error) {
-        console.error("Error fetching requests:", error);
-    }
-}, [token]);
+    const fetchRequests = async () => {
+        try {
+            const response = await axios.get('https://api.oneonone.software/contacts/contact-requests/', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            setRequests(response.data);
+        } catch (error) {
+            console.error("Error fetching requests:", error);
+        }
+    };
 
     useEffect(() => {
         fetchNotifications();
         fetchRequests();
-    }, [token, fetchNotifications, fetchRequests]);
+    }, [token]);
 
     const handleNotificationClick = async (notification) => {
         try {
-            await axios.delete(`http://localhost:8000/calendars/notifications/${notification.id}`, {
+            await axios.delete(`https://api.oneonone.software/calendars/notifications/${notification.id}`, {
             headers: { Authorization: `Bearer ${token}` }
             });
 
@@ -72,7 +71,7 @@ const Dashboard = () => {
    
     <nav className="navbar navbar-expand-lg">
         <div className="container">
-            <Link className="navbar-brand" to="/">1on1</Link>
+          <span className="navbar-brand" to="/dashboard/">1on1</span>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" 
                     data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded={!isNavCollapsed} 
                     aria-label="Toggle navigation" onClick={handleNavCollapse}>
@@ -99,38 +98,41 @@ const Dashboard = () => {
  
  
     <main>
-        <div className="container-sm">
-        <h2 className="text-center my-4">Welcome back {auth.user?.username}.</h2>
-          <div className="notifications">
-            <h3>Notifications</h3>
-            <div className="list-group">
-              {notifications.length + requests.length === 0 ? (
-                <td className="list-group-item list-group-item-action"> No new notifications </td>
-              ) : (
-                notifications.map(notification => (
-                  <div
-                    // to={`http://localhost:8000/calendars/${notification.calendar.id}`}
-                    className="list-group-item list-group-item-action"
-                    key={notification.id}
-                    onClick={() => handleNotificationClick(notification)}
-                  >
-                    {notification.txt}
-                  </div>
-                )),
-                requests.map((request, index) => (
-                  <Link                     
-                  className="list-group-item list-group-item-action"
-                  key={request.id}
-                  to='/contacts'
-                  >
-                      <td>New contact request from {request.sender_details.first_name} {request.sender_details.last_name}.</td>
-                  </Link>
-                ))
-              )}
-            </div>
-          </div>
-        </div>
-      </main>
+  <div className="container-sm">
+    <h2 className="text-center my-4">Welcome back {auth.user?.username}.</h2>
+    <div className="notifications">
+      <h3>Notifications</h3>
+      <div className="list-group">
+        {notifications.length + requests.length === 0 ? (
+          <p>No new notifications</p>
+        ) : (
+          <>
+            {notifications.map(notification => (
+              <div
+                // to={`https://api.oneonone.software/calendars/${notification.calendar.id}`} // Use this if it's supposed to be a Link component
+                className="list-group-item list-group-item-action"
+                key={notification.id}
+                onClick={() => handleNotificationClick(notification)}
+              >
+                {notification.txt}
+              </div>
+            ))}
+            {requests.map((request, index) => (
+              <Link
+                className="list-group-item list-group-item-action"
+                key={request.id}
+                to='/contacts'
+              >
+                <div>New contact request from {request.sender_details.username}.</div>
+              </Link>
+            ))}
+          </>
+        )}
+      </div>
+    </div>
+  </div>
+</main>
+
  
       <footer className="footer text-center py-3 container-fluid">
         <p>2024 1on1 Meetings. All rights reserved.</p>

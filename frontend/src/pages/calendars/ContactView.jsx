@@ -6,7 +6,7 @@ import './ContactView.css';
 import { useAuth } from "../../hooks/AuthProvider";
 
 const ContactView = ({ calendar, token, isOwner }) => {
-    const backendUrl = 'http://ec2-3-95-237-137.compute-1.amazonaws.com'; 
+    const backendUrl = 'https://api.oneonone.software'; 
     const [contacts, setContacts] = useState([]);
     const [timeslots, setTimeslots] = useState([]);
     const auth = useAuth();
@@ -156,7 +156,7 @@ const ContactView = ({ calendar, token, isOwner }) => {
         <>
         <nav className="navbar navbar-expand-lg">
         <div className="container">
-            <Link className="navbar-brand" to="/">1on1</Link>
+            <span className="navbar-brand" to="/dashboard/">1on1</span>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" 
                     data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded={!isNavCollapsed} 
                     aria-label="Toggle navigation" onClick={handleNavCollapse}>

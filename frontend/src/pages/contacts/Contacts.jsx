@@ -21,7 +21,7 @@ const ContactsPage = () => {
     useEffect(() => {
         const fetchContacts = async () => {
             try {
-                const response = await axios.get('http://ec2-3-95-237-137.compute-1.amazonaws.com/contacts/contact-lists/', {
+                const response = await axios.get('https://api.oneonone.software/contacts/contact-lists/', {
                     headers: {
                         Authorization: `Bearer ${auth.token}`,
                     },
@@ -38,7 +38,7 @@ const ContactsPage = () => {
 
         const fetchRequests = async () => {
             try {
-                const response = await axios.get('http://ec2-3-95-237-137.compute-1.amazonaws.com/contacts/contact-requests/', {
+                const response = await axios.get('https://api.oneonone.software/contacts/contact-requests/', {
                     headers: {
                         Authorization: `Bearer ${auth.token}`,
                     },
@@ -56,7 +56,7 @@ const ContactsPage = () => {
     }, [auth.token]);
 
     const handleSubmit = async (e) => {
-        const endpoint = 'http://ec2-3-95-237-137.compute-1.amazonaws.com/contacts/contact-requests/';
+        const endpoint = 'https://api.oneonone.software/contacts/contact-requests/';
         const data = { 'receiver': username };
         try {
             const response = await axios.post(endpoint, data, {
@@ -96,7 +96,7 @@ const ContactsPage = () => {
             try {
                 // Assuming you need to send the contact's email as data for some reason
                 const data = { email: contactToDelete.email };
-                await axios.put(`http://ec2-3-95-237-137.compute-1.amazonaws.com/contacts/contact-lists/`, data, {
+                await axios.put(`https://api.oneonone.software/contacts/contact-lists/`, data, {
                     headers: {
                         Authorization: `Bearer ${auth.token}`,
                     },
@@ -114,7 +114,7 @@ const ContactsPage = () => {
     const acceptRequest = async (requestId) => {
         try {
             const response = await axios.put(
-                `http://ec2-3-95-237-137.compute-1.amazonaws.com/contacts/contact-requests/`,
+                `https://api.oneonone.software/contacts/contact-requests/`,
                 { id: requestId, action: 'accept' },
                 { headers: { Authorization: `Bearer ${auth.token}` } }
             );
@@ -137,7 +137,7 @@ const ContactsPage = () => {
     const rejectRequest = async (requestId) => {
         try {
             const response = await axios.put(
-                `http://ec2-3-95-237-137.compute-1.amazonaws.com/contacts/contact-requests/`,
+                `https://api.oneonone.software/contacts/contact-requests/`,
                 { id: requestId, action: 'decline' },
                 { headers: { Authorization: `Bearer ${auth.token}` } }
             );
@@ -153,7 +153,7 @@ const ContactsPage = () => {
         <>
             <nav className="navbar navbar-expand-lg">
                 <div className="container">
-                    <Link className="navbar-brand" to="/">1on1</Link>
+                    <span className="navbar-brand" to="/dashboard/">1on1</span>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" 
                             data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded={!isNavCollapsed} 
                             aria-label="Toggle navigation" onClick={handleNavCollapse}>

@@ -11,7 +11,7 @@ const CalendarPage = () => {
   const [secondaryCalendars, setSecondaryCalendars] = useState([]);
   const [isNavCollapsed, setIsNavCollapsed] = useState(true); // State to handle navbar collapse
 
-  const backendUrl = 'http://ec2-3-95-237-137.compute-1.amazonaws.com';
+  const backendUrl = 'https://api.oneonone.software';
   const [newCalendarName, setNewCalendarName] = useState('');
   const [newCalendarComment, setNewCalendarComment] = useState('');
 
@@ -72,7 +72,7 @@ const CalendarPage = () => {
     <>
     <nav className="navbar navbar-expand-lg">
         <div className="container">
-          <Link className="navbar-brand" to="/">1on1</Link>
+          <span className="navbar-brand" to="/dashboard/">1on1</span>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" 
                     data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded={!isNavCollapsed} 
                     aria-label="Toggle navigation" onClick={handleNavCollapse}>
