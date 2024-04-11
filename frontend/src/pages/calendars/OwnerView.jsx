@@ -17,7 +17,7 @@ const OwnerView = ({ calendar, token, isOwner }) => {
     const navigate = useNavigate();
     const [editingTimeslotId, setEditingTimeslotId] = useState(null);
     const [editingTimeslot, setEditingTimeslot] = useState({});
-    const backendUrl = 'https://ec2-3-95-237-137.compute-1.amazonaws.com';
+    const backendUrl = 'http://ec2-3-95-237-137.compute-1.amazonaws.com';
     const [contacts, setContacts] = useState([]);
     const [timeslots, setTimeslots] = useState([]);
     const [contactUsername, setContactUsername] = useState('');

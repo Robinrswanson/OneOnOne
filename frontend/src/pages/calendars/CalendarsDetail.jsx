@@ -9,7 +9,7 @@ import FinalView from './FinalView';
 const CalendarDetailPage = () => {
     const { token, user } = useAuth();
     const { calendarId } = useParams();
-    const backendUrl = 'https://ec2-3-95-237-137.compute-1.amazonaws.com';
+    const backendUrl = 'http://ec2-3-95-237-137.compute-1.amazonaws.com';
 
     const [calendar, setCalendar] = useState(null);
     const [isOwner, setIsOwner] = useState(false);

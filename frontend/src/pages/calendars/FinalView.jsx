@@ -8,7 +8,7 @@ import { useAuth } from "../../hooks/AuthProvider";
 
 const FinalView = ({ calendar, token, isOwner }) => {
     const navigate = useNavigate();
-    const backendUrl = 'https://ec2-3-95-237-137.compute-1.amazonaws.com';
+    const backendUrl = 'http://ec2-3-95-237-137.compute-1.amazonaws.com';
     const [contacts, setContacts] = useState([]);
     const [finalizedTimeslot, setFinalizedTimeslot] = useState(null);
     const [isNavCollapsed, setIsNavCollapsed] = useState(true); // State to handle navbar collapse
@@ -76,13 +76,13 @@ const FinalView = ({ calendar, token, isOwner }) => {
 const createGoogleCalendarLink = (timeslot) => {
         const start = new Date(timeslot.start_date_time).toISOString();
         const end = new Date(new Date(timeslot.start_date_time).getTime() + timeslot.duration * 60000).toISOString();
-        return `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(calendar.name)}&dates=${start.replace(/-|:|\.\d{3}/g, '')}/${end.replace(/-|:|\.\d{3}/g, '')}&details=${encodeURIComponent(calendar.comment || '')}&ctz=${userTimeZone}`;
+        return `http://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(calendar.name)}&dates=${start.replace(/-|:|\.\d{3}/g, '')}/${end.replace(/-|:|\.\d{3}/g, '')}&details=${encodeURIComponent(calendar.comment || '')}&ctz=${userTimeZone}`;
     };
 
     const createOutlookCalendarLink = (timeslot) => {
         const start = new Date(timeslot.start_date_time).toISOString();
         const end = new Date(new Date(timeslot.start_date_time).getTime() + timeslot.duration * 60000).toISOString();
-        return `https://outlook.office.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&startdt=${encodeURIComponent(start)}&enddt=${encodeURIComponent(end)}&subject=${encodeURIComponent(calendar.name)}&body=${encodeURIComponent(calendar.comment || '')}`;
+        return `http://outlook.office.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&startdt=${encodeURIComponent(start)}&enddt=${encodeURIComponent(end)}&subject=${encodeURIComponent(calendar.name)}&body=${encodeURIComponent(calendar.comment || '')}`;
     };
 
     const onAddToGoogleCalendar = () => {

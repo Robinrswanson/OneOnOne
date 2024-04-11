@@ -23,7 +23,7 @@ const Dashboard = () => {
 
     const fetchNotifications = useCallback(async () => {
       try {
-          const response = await axios.get('https://ec2-3-95-237-137.compute-1.amazonaws.com/calendars/notifications/', {
+          const response = await axios.get('http://ec2-3-95-237-137.compute-1.amazonaws.com/calendars/notifications/', {
           headers: { Authorization: `Bearer ${token}` }
           });
           setNotifications(response.data);
@@ -35,7 +35,7 @@ const Dashboard = () => {
 
   const fetchRequests = useCallback(async () => {
     try {
-        const response = await axios.get('https://ec2-3-95-237-137.compute-1.amazonaws.com/contacts/contact-requests/', {
+        const response = await axios.get('http://ec2-3-95-237-137.compute-1.amazonaws.com/contacts/contact-requests/', {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
