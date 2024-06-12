@@ -92,5 +92,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Node.js](https://nodejs.org/)
 - [Bootstrap](https://getbootstrap.com/)
 - [React Big Calendar](https://github.com/jquense/react-big-calendar)
-
-```
