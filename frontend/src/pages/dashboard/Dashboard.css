@@ -6,7 +6,6 @@
     --tertiary:#0f1218;
     --quatenary:#242b39;
     --action: #D3AC2B;
-
 }
 
 body {
@@ -27,29 +26,6 @@ header {
 
 main {
     flex: 1;
-}
-
-.navbar {
-    background-color: var(--tertiary);
-}
-
-.navbar-brand {
-    color: var(--action);
-}
-
-.nav-link{
-    color: var(--secondary);
-    opacity: 0.5;
-}
-
-.nav-link:hover {
-    color: var(--secondary);
-    opacity: 1;
-}
-
-.nav-link.current{
-    color: var(--secondary);
-    opacity: 1;
 }
 
 h1, h2, h3, p {
@@ -96,7 +72,5 @@ footer {
     background-color: var(--tertiary);
 }
 
-.navbar-brand:hover {
-    color: var(--action);
-}
+
 

@@ -1,0 +1,139 @@
+/* CalendarView.css */
+
+:root{
+    --main: #1a1f29;
+    --secondary: #fff;
+    --tertiary:#0f1218;
+    --quatenary:#242b39;
+    --action: #D3AC2B;
+}
+
+/* Ensure the container takes full width but doesn't have overflow */
+.container {
+    width: 100%;
+    overflow-x: hidden; /* Prevent horizontal scrolling for the entire container */
+}
+
+.calendar-wrapper {
+    width: 100%;
+    overflow: auto;
+    height: 800px;
+}
+
+.rbc-time-view {
+    overflow: auto; /* Enable horizontal scrolling for the calendar grid */
+    width: 100%;
+    display: inline-block;
+    height: 600px;
+}
+
+.rbc-time-header, .rbc-time-content{
+    min-width: 800px; /* Set a minimum width for the calendar */
+}
+
+/* General styling for the calendar */
+.rbc-toolbar {
+    background-color: var(--quatenary);
+    border-radius: 0.25rem;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.rbc-active {
+    background-color: var(--action) !important;
+    color: var(--secondary) !important;
+}
+
+.rbc-btn-group {
+    display: flex;
+    margin-right: 10px;
+}
+
+.rbc-btn-group button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.rbc-btn-group button:hover {
+    background-color: #0056b3;
+}
+
+.rbc-month-view, .rbc-day-view, .rbc-time-view {
+    background-color: var(--quatenary);
+    border: 1px solid #ddd;
+}
+
+.rbc-today {
+    background-color: var(--main);
+}
+
+.rbc-current-time-indicator {
+    background-color: var(--action);
+}    
+
+.rbc-event {
+    background-color: #007bff;
+    color: white;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.rbc-selected {
+    background-color: rgba(0, 123, 255, 0.3);
+}
+
+@media (max-width: 768px) {
+    .rbc-toolbar {
+        flex-direction: column;
+    }
+
+    .rbc-btn-group {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .rbc-btn-group button {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .rbc-month-view, .rbc-time-view, .rbc-day-view {
+        font-size: 12px;
+    }
+
+    .rbc-header {
+        font-size: 12px;
+        padding: 5px;
+    }
+
+    .rbc-event {
+        font-size: 10px;
+        padding: 2px;
+    }
+
+    .calendar-form {
+        width: 90%;
+        margin: 10px auto;
+    }
+}
+
+@media (max-width: 576px) {
+    .rbc-time-slot {
+        height: 40px;
+    }
+
+    .calendar-form input {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .calendar-form button {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+}

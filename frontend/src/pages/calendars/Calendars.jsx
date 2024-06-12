@@ -3,213 +3,147 @@ import axios from 'axios';
 import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/AuthProvider";
 import './Calendars.css';
+import 'react-tooltip/dist/react-tooltip.css';
+import Navbar from '../../components/Navbar';
 
 const CalendarPage = () => {
-  const auth = useAuth();
   const { token } = useAuth();
-  const [primaryCalendars, setPrimaryCalendars] = useState([]);
-  const [secondaryCalendars, setSecondaryCalendars] = useState([]);
-  const [isNavCollapsed, setIsNavCollapsed] = useState(true); // State to handle navbar collapse
-
-  const backendUrl = 'https://api.oneonone.software';
+  const [allCalendars, setAllCalendars] = useState([]);
   const [newCalendarName, setNewCalendarName] = useState('');
   const [newCalendarComment, setNewCalendarComment] = useState('');
+  const [filter, setFilter] = useState('all');
+  const [sortCriteria, setSortCriteria] = useState('name');
 
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
-  // Function to toggle navbar collapse state
-  const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
+  // Function to add a new calendar
+  const handleAddCalendar = async (event) => {
+    event.preventDefault();
+    const calendarData = {
+      name: newCalendarName,
+      comment: newCalendarComment
+    };
+    try {
+      const response = await axios.post(`${backendUrl}/calendars/primary/`, calendarData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
-    // ... (existing useEffect for fetching calendars)
+      const newCalendar = response.data;
+      setAllCalendars([...allCalendars, { ...newCalendar, type: 'primary' }]);
+      setNewCalendarName('');
+      setNewCalendarComment('');
+    } catch (error) {
+      console.error('Error creating calendar:', error);
+    }
+  };
 
-    const handleAddCalendar = async (event) => {
-        event.preventDefault();
-        const calendarData = {
-            name: newCalendarName,
-            comment: newCalendarComment
-        };
-        try {
-            const response = await axios.post(`${backendUrl}/calendars/primary/`, calendarData, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-
-            const newCalendar = response.data;
-            setPrimaryCalendars([...primaryCalendars, newCalendar]);
-            setNewCalendarName('');  
-        } catch (error) {
-            console.error('Error creating calendar:', error);
-        }
+  useEffect(() => {
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
     };
 
-    useEffect(() => {
-        const config = {
-            headers: { Authorization: `Bearer ${token}` }
-        };
+    const fetchCalendars = async () => {
+      try {
+        const [primaryResponse, secondaryResponse] = await Promise.all([
+          axios.get(`${backendUrl}/calendars/primary/`, config),
+          axios.get(`${backendUrl}/calendars/secondary/`, config)
+        ]);
 
-        // Fetching Primary Calendars
-        axios.get(`${backendUrl}/calendars/primary/`, config)
-            .then(response => {
-                setPrimaryCalendars(response.data);
-            })
-            .catch(error => console.error('Error fetching primary calendars:', error));
+        const combinedCalendars = [
+          ...primaryResponse.data.map(calendar => ({ ...calendar, type: 'primary' })),
+          ...secondaryResponse.data.map(calendar => ({ ...calendar, type: 'secondary' }))
+        ];
 
-        // Fetching Secondary Calendars
-        axios.get(`${backendUrl}/calendars/secondary/`, config)
-            .then(response => {
-                setSecondaryCalendars(response.data);
-            })
-            .catch(error => console.error('Error fetching secondary calendars:', error));
-    }, [token]);
+        console.log('Combined calendars:', combinedCalendars)
 
-  const finalizedCalendars = primaryCalendars.filter(calendar => calendar.status === 'finalized');
-  const submittedCalendars = primaryCalendars.filter(calendar => calendar.status === 'submitted');
-  const inProgressCalendars = primaryCalendars.filter(calendar => calendar.status === 'created');
+        setAllCalendars(combinedCalendars);
+      } catch (error) {
+        console.error('Error fetching calendars:', error);
+      }
+    };
 
-  const contactFinalizedCalendars = secondaryCalendars.filter(calendar => calendar.contact_status === 'finalized');
-  const contactSubmittedCalendars = secondaryCalendars.filter(calendar => calendar.contact_status === 'submitted');
-  const contactInProgressCalendars = secondaryCalendars.filter(calendar => calendar.contact_status === 'not_submitted');
+    fetchCalendars();
+  }, [token, backendUrl]);
+
+  const filteredCalendars = allCalendars.filter(calendar => {
+    if (filter === 'all') return true;
+    if (filter === 'primary' && calendar.type === 'primary') return true;
+    if (filter === 'secondary' && calendar.type === 'secondary') return true;
+    if (filter === 'finalized' && calendar.status === 'finalized') return true;
+    if (filter === 'submitted' && calendar.status === 'submitted') return true;
+    if (filter === 'created' && calendar.status === 'created') return true;
+    return false;
+  });
+
+  const sortedCalendars = filteredCalendars.sort((a, b) => {
+    if (sortCriteria === 'name') return a.name.localeCompare(b.name);
+    if (sortCriteria === 'status') return a.status.localeCompare(b.status);
+    // Add more sorting criteria as needed
+    return 0;
+  });
 
   return (
     <>
-    <nav className="navbar navbar-expand-lg">
-        <div className="container">
-          <span className="navbar-brand" to="/dashboard/">1on1</span>
-            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" 
-                    data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded={!isNavCollapsed} 
-                    aria-label="Toggle navigation" onClick={handleNavCollapse}>
-                <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className={`${isNavCollapsed ? 'collapse' : ''} navbar-collapse`} id="navbarNav">
-                <ul className="navbar-nav me-auto mb-lg-0">
-                    <li className="nav-item"><Link className="nav-link" to="/dashboard/">Dashboard</Link></li>
-                    <li className="nav-item"><Link className="nav-link" to="/contacts/">Contacts</Link></li>
-                    <li className="nav-item"><Link className="nav-link current" to="/calendars/">Calendars</Link></li>
-                </ul>
-                <ul className="navbar-nav ms-auto">
-                    <li className="nav-item"><Link className="nav-link" to="/accounts/">Account</Link></li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="#!" onClick={(e) => {
-                            e.preventDefault();
-                            auth.logOut();
-                        }}>Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-        
-  <main>
-  <div className="container-sm">
-    <h2 className="text-center my-4 gold">Create a Calendar</h2>
-    <div className="add-calendar-form">
-    <form onSubmit={handleAddCalendar} className="calendar-form">
-    <input 
-      className="calendar-input"
-      type="text" 
-      value={newCalendarName} 
-      onChange={(e) => setNewCalendarName(e.target.value)} 
-      placeholder="Enter a Calendar Name" 
-      required 
-    />
-    <input 
-      className="calendar-input"
-      type="text" 
-      value={newCalendarComment} 
-      onChange={(e) => setNewCalendarComment(e.target.value)} 
-      placeholder="Enter a Calendar Comment (Optional)" 
-    />
-    <button type="submit" className="btn btn-primary">Create Calendar</button>
-    </form>
-    
-    </div>
-    <h2 className="text-center my-4 gold">Primary Calendars</h2>
-          <div className="row">
-            {/* Finalized Calendars */}
-            <div className="col-md-4">
-              <h2 className="green">Finalized Calendars</h2>
-              <div className="list-group">
-                {finalizedCalendars.map(calendar => (
-                  <Link to={`/calendars/${calendar.id}`} className="list-group-item list-group-item-action" key={calendar.id}>
-                  {calendar.name}
-                </Link>
-                ))}
-              </div>
-            </div>
-
-            {/* Submitted Calendars */}
-            <div className="col-md-4">
-              <h2 className="green">Submitted Calendars</h2>
-              <div className="list-group">
-                {submittedCalendars.map(calendar => (
-                  <Link to={`/calendars/${calendar.id}`} className="list-group-item list-group-item-action" key={calendar.id}>
-                  {calendar.name}
-                </Link>
-                ))}
-              </div>
-            </div>
-
-            {/* In Progress Calendars */}
-            <div className="col-md-4">
-              <h2 className="green">In Progress Calendars</h2>
-              <div className="list-group">
-                {inProgressCalendars.map(calendar => (
-                  <Link to={`/calendars/${calendar.id}`} className="list-group-item list-group-item-action" key={calendar.id}>
-                  {calendar.name}
-                </Link>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
+      <Navbar activePage='calendars'/>
+      <main>
         <div className="container-sm">
-    <h2 className="text-center my-4 gold">Secondary Calendars</h2>
-     
-          <div className="row">
-            {/* Finalized Calendars */}
-            <div className="col-md-4">
-              <h2 className="green">Finalized Calendars</h2>
-              <div className="list-group">
-                {contactFinalizedCalendars.map(calendar => (
-                  <Link to={`/calendars/${calendar.id}`} className="list-group-item list-group-item-action" key={calendar.id}>
-                  {calendar.name}
-                </Link>
-                ))}
-              </div>
-            </div>
+          {/* Create a calendar*/}
+          <h2 className="text-center my-4 gold">Create a New Calendar</h2>
+          <div className="add-calendar-form">
+            <form onSubmit={handleAddCalendar} className="calendar-form">
+              <input 
+                className="calendar-input"
+                type="text" 
+                value={newCalendarName} 
+                onChange={(e) => setNewCalendarName(e.target.value)} 
+                placeholder="Enter a Calendar Name" 
+                required 
+              />
+              <input 
+                className="calendar-input"
+                type="text" 
+                value={newCalendarComment} 
+                onChange={(e) => setNewCalendarComment(e.target.value)} 
+                placeholder="Enter a Description (Optional)" 
+              />
+              <button type="submit" className="btn btn-primary">Create Calendar</button>
+            </form>
+          </div>
 
-            {/* Submitted Calendars */}
-            <div className="col-md-4">
-              <h2 className="green">Submitted Calendars</h2>
-              <div className="list-group">
-                {contactSubmittedCalendars.map(calendar => (
-                  <Link to={`/calendars/${calendar.id}`} className="list-group-item list-group-item-action" key={calendar.id}>
-                  {calendar.name}
-                </Link>
-                ))}
-              </div>
-            </div>
+          {/* List of calendar*/}
+          <h2 className="text-center my-4 gold">My Calendars</h2>
+          <div className="filters">
+            <h4>Filters:</h4>
+            <select className="form-select" onChange={(e) => setFilter(e.target.value)} value={filter}>
+              <option value="all">All</option>
+              <option value="primary">Organizer</option>
+              <option value="secondary">Attendee</option>
+              <option value="finalized">Finalized</option>
+              <option value="submitted">Submitted</option>
+              <option value="created">Created</option>
+            </select>
+            <h4>Sort:</h4>
+            <select className="form-select" onChange={(e) => setSortCriteria(e.target.value)} value={sortCriteria}>
+              <option value="name">Name</option>
+              <option value="status">Status</option>
+            </select>
+          </div>
 
-            {/* In Progress Calendars */}
-            <div className="col-md-4">
-              <h2 className="green">In Progress Calendars</h2>
-              <div className="list-group">
-                {contactInProgressCalendars.map(calendar => (
-                  <Link to={`/calendars/${calendar.id}`} className="list-group-item list-group-item-action" key={calendar.id}>
-                  {calendar.name}
-                </Link>
-                ))}
-              </div>
-            </div>
+          <div className="list-group">
+            {sortedCalendars.map(calendar => (
+              <Link to={`/calendars/${calendar.id}`} className="list-group-item list-group-item-action" key={calendar.id}>
+                {calendar.name} ({calendar.status}) Organizer: {calendar.owner_username}
+              </Link>
+            ))}
           </div>
         </div>
-
       </main>
 
-        <footer className="footer text-center py-3">
+      <footer className="footer text-center py-3">
         <p>&copy; 2024 1on1 Meetings. All rights reserved.</p>
       </footer>
     </>
-    );
+  );
 };
 
 export default CalendarPage;

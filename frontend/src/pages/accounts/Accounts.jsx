@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css'; // Make sure Bootstrap CSS is imported
 import './Accounts.css'; // Adjust the path to your CSS file as necessary
 import { useAuth } from '../../hooks/AuthProvider';
 import axios from 'axios';
+import Navbar from '../../components/Navbar';
 
 const AccountPage = () => {
   const auth = useAuth();
   const [formData, setFormData] = useState({});
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState({ type: '', content: '' }); // New state for messages
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
         const token = auth.token;
-        const response = await axios.get('https://api.oneonone.software/accounts/', {
+        const response = await axios.get(`${backendUrl}/accounts/`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -32,7 +33,7 @@ const AccountPage = () => {
     };
 
     fetchProfileData();
-  }, [auth.token]); 
+  }, [auth.token, backendUrl]); 
 
   const handleChange = (event) => {
     const { id, value } = event.target;
@@ -43,9 +44,6 @@ const AccountPage = () => {
         setFormData(rest);
     }
   };
-
-  const [isNavCollapsed, setIsNavCollapsed] = useState(true);
-  const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
 
   const validateForm = () => {
     let isValid = true;
@@ -75,7 +73,7 @@ const AccountPage = () => {
     if (validateForm()) {
       try {
         const token = auth.token;
-        const response = await axios.put('https://api.oneonone.software/accounts/', formData, {
+        const response = await axios.put(`${backendUrl}/accounts/`, formData, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -98,33 +96,7 @@ const AccountPage = () => {
 
     return (
         <>
-    <nav className="navbar navbar-expand-lg">
-        <div className="container">
-            <Link className="navbar-brand" to="/dashboard/">1on1</Link>
-            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" 
-                    data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded={!isNavCollapsed} 
-                    aria-label="Toggle navigation" onClick={handleNavCollapse}>
-                <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className={`${isNavCollapsed ? 'collapse' : ''} navbar-collapse`} id="navbarNav">
-                <ul className="navbar-nav me-auto mb-lg-0">
-                    <li className="nav-item"><Link className="nav-link" to="/dashboard/">Dashboard</Link></li>
-                    <li className="nav-item"><Link className="nav-link" to="/contacts/">Contacts</Link></li>
-                    <li className="nav-item"><Link className="nav-link" to="/calendars/">Calendars</Link></li>
-                </ul>
-                <ul className="navbar-nav ms-auto">
-                    <li className="nav-item"><Link className="nav-link current" to="/accounts/">Account</Link></li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="#!" onClick={(e) => {
-                            e.preventDefault();
-                            auth.logOut();
-                        }}>Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
+          <Navbar activePage='account'/>
           <main>
             <div className="container-lg">
               <div className="row justify-content-center">

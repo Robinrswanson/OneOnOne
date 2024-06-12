@@ -2,7 +2,9 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+const backendUrl = process.env.REACT_APP_BACKEND_URL;
  
+
 const AuthContext = createContext();
  
 const AuthProvider = ({ children }) => {
@@ -20,7 +22,7 @@ const AuthProvider = ({ children }) => {
   // Handles user login
   const loginAction = async (data) => {
     try {
-      const response = await axios.post("https://api.oneonone.software/accounts/login/", data);
+      const response = await axios.post(`${backendUrl}/accounts/login/`, data);
       const { user, access: token } = response.data;
 
       console.log(user);
@@ -48,7 +50,7 @@ const AuthProvider = ({ children }) => {
   // Function to handle user registration
   const registerAction = async (data) => {
     try {
-      await axios.post("https://api.oneonone.software/accounts/register/", data);
+      await axios.post(`${backendUrl}/accounts/register/`, data);
       // If registration is successful, automatically log the user in
       await loginAction({ username: data.username, password: data.password });
     } catch (err) {

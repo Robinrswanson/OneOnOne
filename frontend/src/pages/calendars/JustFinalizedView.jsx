@@ -1,18 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import axios from 'axios';
 import './OwnerView.css';
-import { useNavigate } from 'react-router-dom';
-import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/AuthProvider";
+import Navbar from '../../components/Navbar';
 
-const JustFinalizedView = ({calendar, token, isOwner, contacts, user}) => {
-    const navigate = useNavigate();
-    const [isNavCollapsed, setIsNavCollapsed] = useState(true); // State to handle navbar collapse
-    const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
+const JustFinalizedView = ({calendar, token, contacts}) => {
     const auth = useAuth();
-    const backendUrl = 'https://api.oneonone.software';
-
-
+    const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
     const notifyFinalization = async () => {
 		let concatenatedContacts = "" 
@@ -22,12 +16,9 @@ const JustFinalizedView = ({calendar, token, isOwner, contacts, user}) => {
 			  concatenatedContacts += ",";
 			}
 		}
-		// `http://localhost:3000/calendars/${calendar.id}`
 		const link = `${backendUrl}/calendars/${calendar.id}`;
 		const subject = encodeURIComponent(`Notification: Calendar ${calendar.name} has been finalized.`);
 		const body = encodeURIComponent(`Click this link, for sure absolutely safe, will take you to the calendar for quick access:\n\n${link}\n\nBest,\n${auth.user.username}`);
-		
-		// Directly navigating to the mailto link including the concatenated contacts, subject, and body
 		const mailtoLink = `mailto:${concatenatedContacts}?subject=${subject}&body=${body}`;
 		window.location.href = mailtoLink;
 	}
@@ -53,32 +44,7 @@ const JustFinalizedView = ({calendar, token, isOwner, contacts, user}) => {
 
     return (
         <>
-        <nav className="navbar navbar-expand-lg">
-        <div className="container">
-            <span className="navbar-brand" to="/dashboard/">1on1</span>
-            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" 
-                    data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded={!isNavCollapsed} 
-                    aria-label="Toggle navigation" onClick={handleNavCollapse}>
-                <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className={`${isNavCollapsed ? 'collapse' : ''} navbar-collapse`} id="navbarNav">
-                <ul className="navbar-nav me-auto mb-lg-0">
-                    <li className="nav-item"><Link className="nav-link" to="/dashboard/">Dashboard</Link></li>
-                    <li className="nav-item"><Link className="nav-link" to="/contacts/">Contacts</Link></li>
-                    <li className="nav-item"><Link className="nav-link" to="/calendars/">Calendars</Link></li>
-                </ul>
-                <ul className="navbar-nav ms-auto">
-                    <li className="nav-item"><Link className="nav-link" to="/accounts/">Account</Link></li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="#!" onClick={(e) => {
-                            e.preventDefault();
-                            auth.logOut();
-                        }}>Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        </nav>
+        <Navbar />
 
         <div className="owner-container">
             <h2 className="green-text">Congratulations! Your Calendar has been finalized. Would you like to notify the members?</h2>
@@ -92,9 +58,7 @@ const JustFinalizedView = ({calendar, token, isOwner, contacts, user}) => {
 				<p>&copy; 2024 1on1 Meetings. All rights reserved.</p>
 		</footer>
         </>
-    
     )
-
 }
 
 export default JustFinalizedView;

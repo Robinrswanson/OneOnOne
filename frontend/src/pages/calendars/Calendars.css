@@ -2,17 +2,9 @@
  
 :root{
     --main: #1a1f29;
-    --secondary: #fff;
+    --secondary: #FAF9F6;
     --tertiary:#0f1218;
     --action: #D3AC2B;
- 
-}
- 
-.feature-border {
-    border: 1px solid #b4b7ba;
-    padding: 15px;
-    border-radius: 8px; 
-    margin-bottom: 15px;
 }
  
 body {
@@ -31,31 +23,7 @@ header {
     width:100vh;
 }
  
-
-.navbar {
-    background-color: var(--tertiary);
-}
- 
-.navbar-brand {
-    color: var(--action);
-}
- 
-.nav-link{
-    color: var(--secondary);
-    opacity: 0.5;
-}
- 
-.nav-link:hover {
-    color: var(--secondary);
-    opacity: 1;
-}
- 
-.nav-link.current{
-    color: var(--secondary);
-    opacity: 1;
-}
- 
-h1, h2, h3, p {
+h1, h2, h3, h4, p {
     color: var(--secondary);
     font-family: 'Lato', sans-serif;
 }
@@ -68,11 +36,16 @@ h1 {
 h2 {
     font-size: 2.488rem;
 }
+
+h4 {
+    margin: 0;
+}
  
- 
+
 .btn.btn-primary{
     border: 0;
     background-color: var(--action);
+    margin: 0;
 }
  
 .btn.btn-secondary{
@@ -94,14 +67,6 @@ h2 {
     background-color: var(--action);
 }
  
-/* footer {
-    position: absolute; 
-    bottom: 0; 
-    width: 100%; 
-    background-color: var(--tertiary);
-} */
- 
- 
 .list-group-item a {
     color: white;        
     text-decoration: none; 
@@ -112,22 +77,15 @@ h2 {
     text-decoration: none; 
 }
  
- 
-/* Make the navbar stand out */
-.navbar {
-    background-color: var(--tertiary); /* Adjusted color to make it stand out */
-    border-bottom: 2px solid var(--action); /* Optional: adds a border to distinguish navbar */
-}
- 
-.navbar-toggler-icon {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+select {
+    padding: 0 !important;
 }
 
 .calendar-form input,
 .calendar-form button {
 width: 100%; 
-padding: 8px;
-margin-bottom: 10px; 
+padding: 0.5rem;
+margin-bottom: 1rem; 
 }
 
 .calendar-form button {
@@ -141,15 +99,32 @@ cursor: pointer;
 width: 100%; 
 display: flex;
 justify-content: center; 
+margin: 1rem 0;
+border-color: var(--secondary);
 }
 
 .calendar-form {
-width: 32%; 
+width: 75%; 
 margin: auto; 
 display: flex;
 flex-direction: column;
 align-items: center; 
 gap: 10px;
+}
+
+.filters{
+    display: flex;
+    gap: 0.5rem;
+    margin: 1rem 0;
+    align-items: center;
+}
+
+.form-select {
+    background: var(--tertiary);
+    padding: 0.5rem;
+    color: var(--secondary);
+    border: 1px solid var(--secondary);
+    border-radius: 0.25rem;
 }
 
 body {
@@ -163,7 +138,7 @@ body {
 }
 
 main {
-    flex: 1; /* consumes all available space */
+    flex: 1;
 }
 
 html {
@@ -173,18 +148,14 @@ html {
 
 footer {
     background-color: var(--tertiary);
-    height: 3rem; /* your desired height */
-    /* No need for 'position: absolute;' */
+    height: 3rem;
     position: absolute;
-    right: 0;
-    left: 0;
+    width: 100%;
     bottom: 0;
 }
 
-.gold {
-    color: #A98A22;
-}
-
-.green {
-    color: skyblue !important;
+@media (max-width: 1024px){
+    .calendar-form {
+        width: 100%;
+    }
 }

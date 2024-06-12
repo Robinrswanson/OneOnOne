@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Contacts.css'; // Make sure this path is correct
 import { useAuth } from '../../hooks/AuthProvider';
+import Navbar from '../../components/Navbar';
 
 const ContactsPage = () => {
     const [contacts, setContacts] = useState([]);
@@ -13,15 +13,12 @@ const ContactsPage = () => {
     const [isError, setIsError] = useState(false);
 
     const auth = useAuth();
-
-    const [isNavCollapsed, setIsNavCollapsed] = useState(true); // State to handle navbar collapse
-
-    const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
+    const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
     useEffect(() => {
         const fetchContacts = async () => {
             try {
-                const response = await axios.get('https://api.oneonone.software/contacts/contact-lists/', {
+                const response = await axios.get(`${backendUrl}/contacts/contact-lists/`, {
                     headers: {
                         Authorization: `Bearer ${auth.token}`,
                     },
@@ -38,7 +35,7 @@ const ContactsPage = () => {
 
         const fetchRequests = async () => {
             try {
-                const response = await axios.get('https://api.oneonone.software/contacts/contact-requests/', {
+                const response = await axios.get(`${backendUrl}/contacts/contact-requests/`, {
                     headers: {
                         Authorization: `Bearer ${auth.token}`,
                     },
@@ -53,10 +50,10 @@ const ContactsPage = () => {
             fetchContacts();
             fetchRequests();
         }
-    }, [auth.token]);
+    }, [auth.token, backendUrl]);
 
     const handleSubmit = async (e) => {
-        const endpoint = 'https://api.oneonone.software/contacts/contact-requests/';
+        const endpoint = `${backendUrl}/contacts/contact-requests/`;
         const data = { 'receiver': username };
         try {
             const response = await axios.post(endpoint, data, {
@@ -96,7 +93,7 @@ const ContactsPage = () => {
             try {
                 // Assuming you need to send the contact's email as data for some reason
                 const data = { email: contactToDelete.email };
-                await axios.put(`https://api.oneonone.software/contacts/contact-lists/`, data, {
+                await axios.put(`${backendUrl}/contacts/contact-lists/`, data, {
                     headers: {
                         Authorization: `Bearer ${auth.token}`,
                     },
@@ -114,7 +111,7 @@ const ContactsPage = () => {
     const acceptRequest = async (requestId) => {
         try {
             const response = await axios.put(
-                `https://api.oneonone.software/contacts/contact-requests/`,
+                `${backendUrl}/contacts/contact-requests/`,
                 { id: requestId, action: 'accept' },
                 { headers: { Authorization: `Bearer ${auth.token}` } }
             );
@@ -137,7 +134,7 @@ const ContactsPage = () => {
     const rejectRequest = async (requestId) => {
         try {
             const response = await axios.put(
-                `https://api.oneonone.software/contacts/contact-requests/`,
+                `${backendUrl}/contacts/contact-requests/`,
                 { id: requestId, action: 'decline' },
                 { headers: { Authorization: `Bearer ${auth.token}` } }
             );
@@ -151,32 +148,7 @@ const ContactsPage = () => {
 
     return (
         <>
-            <nav className="navbar navbar-expand-lg">
-                <div className="container">
-                    <span className="navbar-brand" to="/dashboard/">1on1</span>
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" 
-                            data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded={!isNavCollapsed} 
-                            aria-label="Toggle navigation" onClick={handleNavCollapse}>
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div className={`${isNavCollapsed ? 'collapse' : ''} navbar-collapse`} id="navbarNav">
-                        <ul className="navbar-nav me-auto mb-lg-0">
-                            <li className="nav-item"><Link className="nav-link" to="/dashboard/">Dashboard</Link></li>
-                            <li className="nav-item"><Link className="nav-link current" to="/contacts/">Contacts</Link></li>
-                            <li className="nav-item"><Link className="nav-link" to="/calendars/">Calendars</Link></li>
-                        </ul>
-                        <ul className="navbar-nav ms-auto">
-                            <li className="nav-item"><Link className="nav-link" to="/accounts/">Account</Link></li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#!" onClick={(e) => {
-                                    e.preventDefault();
-                                    auth.logOut();
-                                }}>Logout</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+            <Navbar activePage='contacts'/>
 
             <main className="container mt-4">
                 <h2 className="mb-4">Incoming Contact Requests</h2>

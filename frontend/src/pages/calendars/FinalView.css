@@ -49,7 +49,7 @@ body {
 .owner-container input,
 .owner-container select,
 .owner-container button {
-    padding: 10px;
+    padding: 0.5rem;
     margin-bottom: 10px;
     border-radius: 4px;
     border: 1px solid var(--feature-border);
@@ -62,11 +62,11 @@ body {
     color: var(--secondary);
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: 0.3s ease;
 }
 
 .owner-container button:hover {
-    background-color: darken(var(--action), 10%);
+    opacity: 0.8;
 }
 
 .owner-container input::placeholder,
@@ -83,10 +83,6 @@ body {
 
 .owner-container .btn-delete {
     background-color: #e74c3c; 
-}
-
-.owner-container .btn-delete:hover {
-    background-color: darken(#e74c3c, 10%);
 }
 
 @media (max-width: 768px) {
@@ -136,49 +132,12 @@ body {
 .justify-between { justify-content: space-between; }
 .w-100 { width: 100%; }
 
-.navbar {
-    background-color: var(--tertiary);
-}
- 
-.navbar-brand {
-    color: var(--action);
-}
- 
-.nav-link{
-    color: var(--secondary);
-    opacity: 0.5;
-}
- 
-.nav-link:hover {
-    color: var(--secondary);
-    opacity: 1;
-}
- 
-.nav-link.current{
-    color: var(--secondary);
-    opacity: 1;
-}
-
-/* Make the navbar stand out */
-.navbar {
-    background-color: var(--tertiary); /* Adjusted color to make it stand out */
-    border-bottom: 2px solid var(--action); /* Optional: adds a border to distinguish navbar */
-}
-
-.navbar-toggler-icon {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-}
-
 h1 {
     display:none;
 }
 
 .owner-container .green-btn {
     background-color: #008000; 
-}
-
-.owner-container .green-btn:hover {
-    background-color: darken(#008000, 10%);
 }
 
 .green {

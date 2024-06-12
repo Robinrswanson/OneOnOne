@@ -157,29 +157,6 @@ h1, h2, h3, h4, p, .card-title, label {
     color: #fff;
 }
 
-.navbar {
-    background-color: var(--tertiary);
-}
-
-.navbar-brand {
-    color: var(--action);
-}
-
-.nav-link{
-    color: var(--secondary);
-    opacity: 0.5;
-}
-
-.nav-link:hover {
-    color: var(--secondary);
-    opacity: 1;
-}
-
-.nav-link.current{
-    color: var(--secondary);
-    opacity: 1;
-}
-
 h1, h2, h3, p {
     color: var(--secondary);
     font-family: 'Lato', sans-serif;
@@ -196,8 +173,4 @@ h2 {
 
 footer {
     background-color: var(--tertiary);
-}
-
-.navbar-brand:hover {
-    color: var(--action);
 }

@@ -9,7 +9,7 @@ import FinalView from './FinalView';
 const CalendarDetailPage = () => {
     const { token, user } = useAuth();
     const { calendarId } = useParams();
-    const backendUrl = 'https://api.oneonone.software';
+    const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
     const [calendar, setCalendar] = useState(null);
     const [isOwner, setIsOwner] = useState(false);
@@ -30,12 +30,9 @@ const CalendarDetailPage = () => {
                 setCalendar(response.data);
                 setisFinalized(response.data.status === "finalized")
                 setIsOwner(response.data.owner_id === user.id);
-                console.log("lol")
                 // Check if the user is a calendar participant
                 const contactsResponse = await axios.get(`${backendUrl}/calendars/${calendarId}/contacts/`, config);
-                console.log("lol2")
                 const isContact = contactsResponse.data.some(contact => contact.contact === user.id);
-                console.log(isContact)
                 setIsContact(isContact);
                 
             } catch (error) {
@@ -49,7 +46,7 @@ const CalendarDetailPage = () => {
         if (token && user) {
             fetchCalendar();
         }
-    }, [calendarId, token, user]);
+    }, [calendarId, token, user, backendUrl]);
 
     if (error) {
         return <p>Error: {error}</p>;
