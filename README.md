@@ -1,14 +1,6 @@
-# Calendar Scheduling Application
-
-## Quick Summary
+# OneOnOne Scheduling Application
 
 The Calendar Scheduling Application allows users to create and manage calendars, invite contacts, create and vote on timeslots, and finalize events. It includes features such as user authentication, real-time updates, and notifications to ensure seamless scheduling and collaboration.
-
-## Video Demonstration
-
-*Include a link to a video demonstration of the application here.*
-
-(Usage Guide Included After Installation Section)
 
 ## Technologies Used
 
