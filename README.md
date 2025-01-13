@@ -6,10 +6,9 @@ OneOnOne is a Scheduling Application allows users to create and manage calendars
 
 - **Backend**: Django, Django REST Framework
 - **Frontend**: React, React Big Calendar, Bootstrap
-- **Real-Time Communication**: Socket.io (Optional for chat system)
-- **Authentication**: Custom or third-party like Auth0 or Firebase Authentication
-- **Database**: PostgreSQL (or any preferred database)
-- **Hosting**: AWS, Heroku, or any cloud service
+- **Authentication**: Auth0
+- **Database**: MySQL
+- **Hosting**: AWS EC2, Vercel
 
 ## Installation
 
